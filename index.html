@@ -13,6 +13,7 @@
         .logo-img { max-width: 160px; height: auto; transition: transform 0.3s ease; }
         .logo-img:hover { transform: scale(1.05); }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .menu-item { animation: slideUp 0.5s ease-out; transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .menu-item:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); }
@@ -32,7 +33,7 @@
         .nav-item:hover .navbar-dropdown { display: block; }
         @media (max-width: 640px) {
             .logo-img { max-width: 120px; }
-            .navbar-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background-color: #fff; padding: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+            .navbar-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background-color: #fff; padding: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); animation: slideDown 0.3s ease-out; }
             .navbar-menu.active { display: block; }
             .nav-item { margin: 0.5rem 0; }
             .hero-bg { height: 50vh; }
@@ -42,8 +43,10 @@
             .grid-cols-3 { grid-template-columns: 1fr; }
             .reviews-container { height: 150px; }
             .hamburger { display: block; }
+            .cart-icon { margin-left: 1rem; }
         }
         .hamburger { display: none; font-size: 1.5rem; cursor: pointer; }
+        .section { opacity: 0; animation: fadeIn 0.5s forwards; }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -79,7 +82,7 @@
     </nav>
 
     <!-- Homepage -->
-    <section id="home" class="hero-bg h-96 flex items-center justify-center text-white">
+    <section id="home" class="hero-bg h-96 flex items-center justify-center text-white section">
         <div class="text-center bg-gradient-to-b from-black/50 to-black/70 p-10 rounded-xl">
             <img src="logo.png" alt="Sizzling Spices Kitchen Logo" class="logo-img mx-auto mb-6">
             <h2 class="text-4xl font-bold mb-4">Welcome to Sizzling Spices Kitchen</h2>
@@ -87,13 +90,12 @@
             <div class="space-x-4">
                 <a href="#order" class="bg-orange-600 text-white py-3 px-6 rounded-lg hover:bg-orange-500 transition">Order Now</a>
                 <a href="#menu" class="bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-orange-700 transition">View Menu</a>
-                <a href="#contact" class="bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-orange-700 transition">Reserve Table</a>
             </div>
         </div>
     </section>
 
     <!-- Menu Page -->
-    <section id="menu" class="bg-gray-50 py-16">
+    <section id="menu" class="bg-gray-50 py-16 section">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-semibold text-center mb-10 text-gray-800">Our Menu</h2>
             <div class="mb-6 text-center">
@@ -109,28 +111,28 @@
                     <img src="image1.png" alt="Butter Chicken" class="menu-image mb-4">
                     <h3 class="text-xl font-medium text-gray-800">Butter Chicken</h3>
                     <p class="text-gray-600 mt-2">Creamy tomato-based curry with tender chicken.</p>
-                    <p class="text-orange-600 font-semibold mt-2">₹250</p>
+                    <p class="text-orange-600 font-semibold mt-2">₹250 + GST</p>
                     <button onclick="addToCart('Butter Chicken', 250)" class="mt-4 w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-500 transition">Add to Cart</button>
                 </div>
                 <div class="menu-item bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition" data-category="veg" data-spicy="yes">
                     <img src="image2.png" alt="Paneer Tikka Masala" class="menu-image mb-4">
                     <h3 class="text-xl font-medium text-gray-800">Paneer Tikka Masala</h3>
                     <p class="text-gray-600 mt-2">Grilled paneer in a spicy masala sauce.</p>
-                    <p class="text-orange-600 font-semibold mt-2">₹220</p>
+                    <p class="text-orange-600 font-semibold mt-2">₹220 + GST</p>
                     <button onclick="addToCart('Paneer Tikka Masala', 220)" class="mt-4 w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-500 transition">Add to Cart</button>
                 </div>
                 <div class="menu-item bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition" data-category="non-veg" data-spicy="no">
                     <img src="image3.png" alt="Biryani" class="menu-image mb-4">
                     <h3 class="text-xl font-medium text-gray-800">Biryani</h3>
                     <p class="text-gray-600 mt-2">Fragrant rice with chicken or veg.</p>
-                    <p class="text-orange-600 font-semibold mt-2">₹280</p>
+                    <p class="text-orange-600 font-semibold mt-2">₹280 + GST</p>
                     <button onclick="addToCart('Biryani', 280)" class="mt-4 w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-500 transition">Add to Cart</button>
                 </div>
                 <div class="menu-item bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition" data-category="veg" data-spicy="no">
                     <img src="image4.png" alt="Masala Dosa" class="menu-image mb-4">
                     <h3 class="text-xl font-medium text-gray-800">Masala Dosa</h3>
                     <p class="text-gray-600 mt-2">Crispy crepe with spiced potato.</p>
-                    <p class="text-orange-600 font-semibold mt-2">₹150</p>
+                    <p class="text-orange-600 font-semibold mt-2">₹150 + GST</p>
                     <button onclick="addToCart('Masala Dosa', 150)" class="mt-4 w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-500 transition">Add to Cart</button>
                 </div>
             </div>
@@ -138,12 +140,24 @@
     </section>
 
     <!-- Cart Section -->
-    <section id="cart" class="bg-white py-16">
+    <section id="cart" class="bg-white py-16 section">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-semibold text-center mb-10 text-gray-800">Your Cart</h2>
             <div class="max-w-2xl mx-auto bg-gray-50 p-6 rounded-lg shadow-md">
                 <div id="cart-items" class="space-y-4"></div>
                 <div class="mt-6 flex justify-between text-lg font-medium text-gray-800">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal">₹0</span>
+                </div>
+                <div class="mt-2 flex justify-between text-lg font-medium text-gray-800">
+                    <span>GST (5%):</span>
+                    <span id="cart-gst">₹0</span>
+                </div>
+                <div class="mt-2 flex justify-between text-lg font-medium text-gray-800">
+                    <span>Delivery Charge:</span>
+                    <span>₹80</span>
+                </div>
+                <div class="mt-4 flex justify-between text-xl font-semibold text-gray-800">
                     <span>Total:</span>
                     <span id="cart-total">₹0</span>
                 </div>
@@ -153,7 +167,7 @@
     </section>
 
     <!-- Order Section -->
-    <section id="order" class="bg-gray-50 py-16 hidden">
+    <section id="order" class="bg-gray-50 py-16 section hidden">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-semibold text-center mb-10 text-gray-800">Checkout</h2>
             <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
@@ -183,6 +197,12 @@
                             <option value="Wallet">Wallet</option>
                         </select>
                     </div>
+                    <div class="text-lg font-medium text-gray-800">
+                        <p>Subtotal: <span id="order-subtotal">₹0</span></p>
+                        <p>GST (5%): <span id="order-gst">₹0</span></p>
+                        <p>Delivery Charge: ₹80</p>
+                        <p class="mt-2 text-xl font-semibold">Total: <span id="order-total">₹0</span></p>
+                    </div>
                     <button onclick="placeOrder()" class="w-full bg-orange-600 text-white py-3 rounded-lg hover:bg-orange-500 transition">Place Order</button>
                 </div>
             </div>
@@ -190,7 +210,7 @@
     </section>
 
     <!-- Location & Contact Page -->
-    <section id="contact" class="bg-white py-16">
+    <section id="contact" class="bg-white py-16 section">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-semibold mb-6 text-gray-800">Contact Us</h2>
             <p class="text-lg text-gray-600">Shop No. 9, Kishore Smruti Society, Behind Saraswati Bank, Kalwa, Thane - 400605</p>
@@ -200,7 +220,7 @@
     </section>
 
     <!-- Gallery -->
-    <section class="bg-gray-50 py-16">
+    <section class="bg-gray-50 py-16 section">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-semibold mb-6 text-gray-800">Gallery</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -213,7 +233,7 @@
     </section>
 
     <!-- Customer Reviews -->
-    <section class="bg-white py-16">
+    <section class="bg-white py-16 section">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-semibold mb-6 text-gray-800">Customer Reviews</h2>
             <div class="reviews-container">
@@ -248,7 +268,7 @@
     </section>
 
     <!-- Order Status Section -->
-    <section id="order-status" class="bg-gray-50 py-16">
+    <section id="order-status" class="bg-gray-50 py-16 section">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-semibold mb-6 text-gray-800">Check Order Status</h2>
             <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
@@ -265,7 +285,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-orange-700 text-white py-8">
+    <footer class="bg-orange-700 text-white py-8 section">
         <div class="container mx-auto px-6 text-center">
             <p class="text-lg">© 2025 Sizzling Spices Kitchen. All rights reserved.</p>
             <div class="mt-4 space-x-4">
@@ -278,32 +298,35 @@
     <script>
         let cart = [];
         let orders = {};
+        const DELIVERY_CHARGE = 80;
+        const GST_RATE = 0.05;
 
-        function addToCart(itemName, price) {
+        function addToCart(itemName, basePrice) {
             const existingItem = cart.find(item => item.name === itemName);
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
-                cart.push({ name: itemName, price: price, quantity: 1 });
+                cart.push({ name: itemName, basePrice: basePrice, quantity: 1 });
             }
             updateCart();
         }
 
         function updateCart() {
             const cartItems = document.getElementById('cart-items');
+            const cartSubtotal = document.getElementById('cart-subtotal');
+            const cartGst = document.getElementById('cart-gst');
             const cartTotal = document.getElementById('cart-total');
-            const cartCount = document.getElementById('cart-count');
             cartItems.innerHTML = '';
-            let total = 0;
+            let subtotal = 0;
 
             cart.forEach((item, index) => {
-                total += item.price * item.quantity;
+                subtotal += item.basePrice * item.quantity;
                 const itemElement = document.createElement('div');
                 itemElement.className = 'flex justify-between items-center py-3 border-b border-gray-200';
                 itemElement.innerHTML = `
                     <div>
                         <p class="text-gray-800">${item.name} (x${item.quantity})</p>
-                        <p class="text-orange-600">₹${item.price * item.quantity}</p>
+                        <p class="text-orange-600">₹${item.basePrice * item.quantity} + GST</p>
                     </div>
                     <div>
                         <button onclick="updateQuantity(${index}, -1)" class="text-gray-600 px-2">-</button>
@@ -314,8 +337,11 @@
                 cartItems.appendChild(itemElement);
             });
 
-            cartTotal.textContent = `₹${total}`;
-            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const gst = subtotal * GST_RATE;
+            const total = subtotal + gst + DELIVERY_CHARGE;
+            cartSubtotal.textContent = `₹${subtotal.toFixed(2)}`;
+            cartGst.textContent = `₹${gst.toFixed(2)}`;
+            cartTotal.textContent = `₹${total.toFixed(2)}`;
         }
 
         function updateQuantity(index, change) {
@@ -338,7 +364,17 @@
             }
             document.getElementById('order').classList.remove('hidden');
             document.getElementById('cart').classList.add('hidden');
+            updateOrderSummary();
             window.scrollTo({ top: document.getElementById('order').offsetTop, behavior: 'smooth' });
+        }
+
+        function updateOrderSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + item.basePrice * item.quantity, 0);
+            const gst = subtotal * GST_RATE;
+            const total = subtotal + gst + DELIVERY_CHARGE;
+            document.getElementById('order-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('order-gst').textContent = `₹${gst.toFixed(2)}`;
+            document.getElementById('order-total').textContent = `₹${total.toFixed(2)}`;
         }
 
         function placeOrder() {
@@ -353,12 +389,14 @@
             }
 
             let orderSummary = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
-            let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const subtotal = cart.reduce((sum, item) => sum + item.basePrice * item.quantity, 0);
+            const gst = subtotal * GST_RATE;
+            const total = subtotal + gst + DELIVERY_CHARGE;
 
             const orderId = 'ORDER_' + Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
             orders[orderId] = { status: 'Processing', time: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) };
 
-            alert(`Order placed successfully!\nOrder ID: ${orderId}\nItems: ${orderSummary}\nTotal: ₹${total}\nName: ${name}\nMobile: ${mobile}\nAddress: ${address}\nPayment: ${payment}\nCheck status below with your Order ID!`);
+            alert(`Order placed successfully!\nOrder ID: ${orderId}\nItems: ${orderSummary}\nSubtotal: ₹${subtotal.toFixed(2)}\nGST (5%): ₹${gst.toFixed(2)}\nDelivery Charge: ₹80\nTotal: ₹${total.toFixed(2)}\nName: ${name}\nMobile: ${mobile}\nAddress: ${address}\nPayment: ${payment}\nCheck status below with your Order ID!`);
 
             cart = [];
             updateCart();
@@ -421,6 +459,16 @@
             const menu = document.getElementById('navbar-menu');
             menu.classList.toggle('active');
         }
+
+        // Trigger animations on scroll
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.section').forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top >= 0 && rect.top < window.innerHeight) {
+                    section.style.opacity = 1;
+                }
+            });
+        });
     </script>
 </body>
 </html>
