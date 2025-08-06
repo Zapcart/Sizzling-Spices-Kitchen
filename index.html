@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sizzling Spices Kitchen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f9fafb; }
+        .hero-bg { background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1513104890138-7c749659a680?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover; }
+        .menu-image { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; }
+        .logo-img { max-width: 160px; height: auto; transition: transform 0.3s ease; }
+        .logo-img:hover { transform: scale(1.05); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .menu-item { animation: slideUp 0.5s ease-out; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .menu-item:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); }
+        .menu-item:active { animation: bounce 0.3s ease; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        button { transition: transform 0.2s, background-color 0.2s; }
+        button:active { transform: scale(0.95); }
+        .reviews-container { height: 220px; overflow-y: hidden; }
+        .reviews { animation: scroll 15s infinite linear; }
+        @keyframes scroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100%); }
+        }
+        .navbar-dropdown { display: none; position: absolute; background-color: #fff; min-width: 160px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); z-index: 1; border-radius: 8px; }
+        .navbar-dropdown a { color: #333; padding: 12px 16px; text-decoration: none; display: block; }
+        .navbar-dropdown a:hover { background-color: #f1f1f1; }
+        .nav-item:hover .navbar-dropdown { display: block; }
+        @media (max-width: 640px) {
+            .logo-img { max-width: 120px; }
+            .navbar-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background-color: #fff; padding: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+            .navbar-menu.active { display: block; }
+            .nav-item { margin: 0.5rem 0; }
+            .hero-bg { height: 50vh; }
+            .menu-image { height: 120px; }
+            h2 { font-size: 1.5rem; }
+            h3 { font-size: 1.2rem; }
+            .grid-cols-3 { grid-template-columns: 1fr; }
+            .reviews-container { height: 150px; }
+            .hamburger { display: block; }
+        }
+        .hamburger { display: none; font-size: 1.5rem; cursor: pointer; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation Bar -->
+    <nav class="bg-orange-700 text-white py-4 sticky top-0 z-10 shadow-lg">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center space-x-6">
+                <img src="logo.png" alt="Sizzling Spices Kitchen Logo" class="logo-img">
+                <h1 class="text-2xl font-semibold">Sizzling Spices Kitchen</h1>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="relative nav-item">
+                    <a href="#menu" class="hover:text-orange-200">Menu</a>
+                    <div class="navbar-dropdown">
+                        <a href="#menu" class="text-gray-800 hover:bg-orange-100">All Items</a>
+                        <a href="#menu" class="text-gray-800 hover:bg-orange-100">Starters</a>
+                        <a href="#menu" class="text-gray-800 hover:bg-orange-100">Main Course</a>
+                        <a href="#menu" class="text-gray-800 hover:bg-orange-100">Biryani</a>
+                    </div>
+                </div>
+                <a href="#order" class="hover:text-orange-200">Order Online</a>
+                <a href="#contact" class="hover:text-orange-200">Contact</a>
+                <a href="#cart" class="cart-icon hover:text-orange-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <span id="cart-count" class="cart-count">0</span>
+                </a>
+                <div class="hamburger md:hidden" onclick="toggleMenu()">☰</div>
+            </div>
+        </div>
+        <div id="navbar-menu" class="navbar-menu"></div>
+    </nav>
+
+    <!-- Homepage -->
+    <section id="home" class="hero-bg h-96 flex items-center justify-center text-white">
+        <div class="text-center bg-gradient-to-b from-black/50 to-black/70 p-10 rounded-xl">
+            <img src="logo.png" alt="Sizzling Spices Kitchen Logo" class="logo-img mx-auto mb-6">
+            <h2 class="text-4xl font-bold mb-4">Welcome to Sizzling Spices Kitchen</h2>
+            <p class="text-xl mb-6 font-light">Delicious food, delivered fresh!</p>
+            <div class="space-x-4">
+                <a href="#order" class="bg-orange-600 text-white py-3 px-6 rounded-lg hover:bg-orange-500 transition">Order Now</a>
+                <a href="#menu" class="bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-orange-700 transition">View Menu</a>
+                <a href="#contact" class="bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-orange-700 transition">Reserve Table</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Page -->
+    <section id="menu" class="bg-gray-50 py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-semibold text-center mb-10 text-gray-800">Our Menu</h2>
+            <div class="mb-6 text-center">
+                <select id="filter" class="p-2 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 text-gray-700">
+                    <option value="all">All</option>
+                    <option value="veg">Vegetarian</option>
+                    <option value="non-veg">Non-Vegetarian</option>
+                    <option value="spicy">Spicy</option>
+                </select>
+            </div>
+            <div id="menu-items" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="menu-item bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition" data-category="non-veg" data-spicy="yes">
+                    <img src="image1.png" alt="Butter Chicken" class="menu-image mb-4">
+                    <h3 class="text-xl font-medium text-gray-800">Butter Chicken</h3>
+                    <p class="text-gray-600 mt-2">Creamy tomato-based curry with tender chicken.</p>
+                    <p class="text-orange-600 font-semibold mt-2">₹250</p>
+                    <button onclick="addToCart('Butter Chicken', 250)" class="mt-4 w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-500 transition">Add to Cart</button>
+                </div>
+                <div class="menu-item bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition" data-category="veg" data-spicy="yes">
+                    <img src="image2.png" alt="Paneer Tikka Masala" class="menu-image mb-4">
+                    <h3 class="text-xl font-medium text-gray-800">Paneer Tikka Masala</h3>
+                    <p class="text-gray-600 mt-2">Grilled paneer in a spicy masala sauce.</p>
+                    <p class="text-orange-600 font-semibold mt-2">₹220</p>
+                    <button onclick="addToCart('Paneer Tikka Masala', 220)" class="mt-4 w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-500 transition">Add to Cart</button>
+                </div>
+                <div class="menu-item bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition" data-category="non-veg" data-spicy="no">
+                    <img src="image3.png" alt="Biryani" class="menu-image mb-4">
+                    <h3 class="text-xl font-medium text-gray-800">Biryani</h3>
+                    <p class="text-gray-600 mt-2">Fragrant rice with chicken or veg.</p>
+                    <p class="text-orange-600 font-semibold mt-2">₹280</p>
+                    <button onclick="addToCart('Biryani', 280)" class="mt-4 w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-500 transition">Add to Cart</button>
+                </div>
+                <div class="menu-item bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition" data-category="veg" data-spicy="no">
+                    <img src="image4.png" alt="Masala Dosa" class="menu-image mb-4">
+                    <h3 class="text-xl font-medium text-gray-800">Masala Dosa</h3>
+                    <p class="text-gray-600 mt-2">Crispy crepe with spiced potato.</p>
+                    <p class="text-orange-600 font-semibold mt-2">₹150</p>
+                    <button onclick="addToCart('Masala Dosa', 150)" class="mt-4 w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-500 transition">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart" class="bg-white py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-semibold text-center mb-10 text-gray-800">Your Cart</h2>
+            <div class="max-w-2xl mx-auto bg-gray-50 p-6 rounded-lg shadow-md">
+                <div id="cart-items" class="space-y-4"></div>
+                <div class="mt-6 flex justify-between text-lg font-medium text-gray-800">
+                    <span>Total:</span>
+                    <span id="cart-total">₹0</span>
+                </div>
+                <button onclick="proceedToCheckout()" class="mt-6 w-full bg-orange-600 text-white py-3 rounded-lg hover:bg-orange-500 transition">Proceed to Checkout</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section id="order" class="bg-gray-50 py-16 hidden">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-semibold text-center mb-10 text-gray-800">Checkout</h2>
+            <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+                <div class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-lg font-medium text-gray-700">Your Name</label>
+                        <input type="text" id="name" placeholder="Enter your name" class="mt-2 block w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label for="mobile" class="block text-lg font-medium text-gray-700">Mobile Number</label>
+                        <input type="tel" id="mobile" placeholder="Enter your mobile number" class="mt-2 block w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label for="address" class="block text-lg font-medium text-gray-700">Delivery Address</label>
+                        <textarea id="address" placeholder="Enter your delivery address" class="mt-2 block w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500"></textarea>
+                    </div>
+                    <div>
+                        <label for="pincode" class="block text-lg font-medium text-gray-700">Enter Pincode</label>
+                        <input type="text" id="pincode" placeholder="Check delivery availability" class="mt-2 block w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500" onblur="checkPincode()">
+                    </div>
+                    <div>
+                        <label for="payment" class="block text-lg font-medium text-gray-700">Payment Method</label>
+                        <select id="payment" class="mt-2 block w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500">
+                            <option value="COD">Cash on Delivery (COD)</option>
+                            <option value="UPI">UPI</option>
+                            <option value="Card">Debit/Credit Card</option>
+                            <option value="Wallet">Wallet</option>
+                        </select>
+                    </div>
+                    <button onclick="placeOrder()" class="w-full bg-orange-600 text-white py-3 rounded-lg hover:bg-orange-500 transition">Place Order</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Contact Page -->
+    <section id="contact" class="bg-white py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-semibold mb-6 text-gray-800">Contact Us</h2>
+            <p class="text-lg text-gray-600">Shop No. 9, Kishore Smruti Society, Behind Saraswati Bank, Kalwa, Thane - 400605</p>
+            <p class="text-lg text-gray-600 mt-2"><a href="tel:+919833321200" class="text-orange-600 hover:underline">Call: 9833321200</a> | <a href="https://wa.me/919833321200" class="text-orange-600 hover:underline">WhatsApp</a></p>
+            <p class="text-lg text-gray-600 mt-2">Opening Hours: 11:00 AM - 11:00 PM</p>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="bg-gray-50 py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-semibold mb-6 text-gray-800">Gallery</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <img src="image1.png" alt="Food Image" class="w-full h-60 object-cover rounded-lg shadow-md hover:shadow-lg transition">
+                <img src="image2.png" alt="Kitchen Image" class="w-full h-60 object-cover rounded-lg shadow-md hover:shadow-lg transition">
+                <img src="image3.png" alt="Customer Image" class="w-full h-60 object-cover rounded-lg shadow-md hover:shadow-lg transition">
+            </div>
+            <a href="#" class="mt-4 text-orange-600 font-medium hover:underline">View on Instagram</a>
+        </div>
+    </section>
+
+    <!-- Customer Reviews -->
+    <section class="bg-white py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-semibold mb-6 text-gray-800">Customer Reviews</h2>
+            <div class="reviews-container">
+                <div class="reviews">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md mb-4">
+                        <p class="text-gray-600">"Amazing food and service!" - Ravi Patel ★★★★☆</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md mb-4">
+                        <p class="text-gray-600">"Best Biryani in town!" - Priya Sharma ★★★★★</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md mb-4">
+                        <p class="text-gray-600">"Loved the Butter Chicken!" - Amit Singh ★★★★☆</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md mb-4">
+                        <p class="text-gray-600">"Great ambiance and taste!" - Neha Gupta ★★★★★</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md mb-4">
+                        <p class="text-gray-600">"Amazing food and service!" - Ravi Patel ★★★★☆</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md mb-4">
+                        <p class="text-gray-600">"Best Biryani in town!" - Priya Sharma ★★★★★</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md mb-4">
+                        <p class="text-gray-600">"Loved the Butter Chicken!" - Amit Singh ★★★★☆</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md mb-4">
+                        <p class="text-gray-600">"Great ambiance and taste!" - Neha Gupta ★★★★★</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Status Section -->
+    <section id="order-status" class="bg-gray-50 py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-semibold mb-6 text-gray-800">Check Order Status</h2>
+            <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+                <div class="space-y-6">
+                    <div>
+                        <label for="order-id" class="block text-lg font-medium text-gray-700">Enter Order ID</label>
+                        <input type="text" id="order-id" placeholder="Enter your order ID" class="mt-2 block w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500">
+                    </div>
+                    <button onclick="checkOrderStatus()" class="w-full bg-orange-600 text-white py-3 rounded-lg hover:bg-orange-500 transition">Check Status</button>
+                    <p id="order-status-result" class="mt-4 text-gray-600"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-orange-700 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-lg">© 2025 Sizzling Spices Kitchen. All rights reserved.</p>
+            <div class="mt-4 space-x-4">
+                <a href="#" class="hover:text-orange-200">Privacy Policy</a>
+                <a href="#" class="hover:text-orange-200">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+        let orders = {};
+
+        function addToCart(itemName, price) {
+            const existingItem = cart.find(item => item.name === itemName);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name: itemName, price: price, quantity: 1 });
+            }
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const cartCount = document.getElementById('cart-count');
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                const itemElement = document.createElement('div');
+                itemElement.className = 'flex justify-between items-center py-3 border-b border-gray-200';
+                itemElement.innerHTML = `
+                    <div>
+                        <p class="text-gray-800">${item.name} (x${item.quantity})</p>
+                        <p class="text-orange-600">₹${item.price * item.quantity}</p>
+                    </div>
+                    <div>
+                        <button onclick="updateQuantity(${index}, -1)" class="text-gray-600 px-2">-</button>
+                        <button onclick="updateQuantity(${index}, 1)" class="text-gray-600 px-2">+</button>
+                        <button onclick="removeFromCart(${index})" class="text-red-600 px-2">Remove</button>
+                    </div>
+                `;
+                cartItems.appendChild(itemElement);
+            });
+
+            cartTotal.textContent = `₹${total}`;
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+        }
+
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty. Add items to proceed.');
+                return;
+            }
+            document.getElementById('order').classList.remove('hidden');
+            document.getElementById('cart').classList.add('hidden');
+            window.scrollTo({ top: document.getElementById('order').offsetTop, behavior: 'smooth' });
+        }
+
+        function placeOrder() {
+            const name = document.getElementById('name').value;
+            const mobile = document.getElementById('mobile').value;
+            const address = document.getElementById('address').value;
+            const payment = document.getElementById('payment').value;
+
+            if (!name || !mobile || !address || !payment) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            let orderSummary = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
+            let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+            const orderId = 'ORDER_' + Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+            orders[orderId] = { status: 'Processing', time: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) };
+
+            alert(`Order placed successfully!\nOrder ID: ${orderId}\nItems: ${orderSummary}\nTotal: ₹${total}\nName: ${name}\nMobile: ${mobile}\nAddress: ${address}\nPayment: ${payment}\nCheck status below with your Order ID!`);
+
+            cart = [];
+            updateCart();
+            document.getElementById('name').value = '';
+            document.getElementById('mobile').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('payment').value = 'COD';
+            document.getElementById('order').classList.add('hidden');
+            document.getElementById('cart').classList.remove('hidden');
+        }
+
+        function checkPincode() {
+            const pincode = document.getElementById('pincode').value;
+            const basePincode = '400605';
+            const deliveryRangeKm = 15;
+            const validPincodes = ['400605', '400606', '400607', '400610', '400611', '400612'];
+
+            if (validPincodes.includes(pincode)) {
+                alert('Delivery available in your area!');
+            } else {
+                alert('Sorry, we deliver only within 15 km of 400605. Please enter a valid pincode in this range.');
+            }
+        }
+
+        document.getElementById('filter').addEventListener('change', function() {
+            const filter = this.value;
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                const spicy = item.getAttribute('data-spicy');
+                if (filter === 'all' || 
+                    (filter === 'veg' && category === 'veg') || 
+                    (filter === 'non-veg' && category === 'non-veg') || 
+                    (filter === 'spicy' && spicy === 'yes')) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        function checkOrderStatus() {
+            const orderId = document.getElementById('order-id').value;
+            const result = document.getElementById('order-status-result');
+            if (orders[orderId]) {
+                setTimeout(() => {
+                    if (orders[orderId].status === 'Processing') {
+                        orders[orderId].status = 'Out for Delivery';
+                    } else if (orders[orderId].status === 'Out for Delivery') {
+                        orders[orderId].status = 'Delivered';
+                    }
+                    result.textContent = `Order ID: ${orderId} | Status: ${orders[orderId].status} | Placed: ${orders[orderId].time}`;
+                }, 2000);
+            } else {
+                result.textContent = 'Invalid Order ID. Please check and try again.';
+            }
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('navbar-menu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
